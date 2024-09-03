@@ -2,6 +2,7 @@ import whisper
 import boto3
 from loguru import logger
 import os
+from time import time
 
 model = whisper.load_model("base")
 s3 = boto3.client('s3')
@@ -27,4 +28,8 @@ def delete_file(file_path):
         logger.info(f"An error occurred while deleting the file: {e}")
 
 def whisper_transcribe(file_path):
-    return model.transcribe(file_path)
+    t1 = time()
+    model_to_return = model.transcribe(file_path)
+    t2 = time()
+
+    return model_to_return, t2-t1

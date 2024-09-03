@@ -14,14 +14,15 @@ def transcribe(s3_file_key: str, file_path_is_local=False) -> dict:
         if not file_path_is_local:
             download_path = download_file(s3_file_key)
 
-        result = whisper_transcribe(download_path)
+        result, duration = whisper_transcribe(download_path)
         logger.success("Transcribed correctly")
     
         delete_file(download_path)
 
         return {
             "language": result["language"],
-            "text": repr(result["text"])
+            "text": repr(result["text"]),
+            "duration": str(duration)
         }
     except KeyboardInterrupt:
         raise
