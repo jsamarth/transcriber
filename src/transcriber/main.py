@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from loguru import logger
 from transcriber.utils import delete_file, download_file, whisper_transcribe
+import traceback
 
 app = FastAPI()
 
@@ -27,5 +28,6 @@ def transcribe(s3_file_key: str, file_path_is_local=False) -> dict:
     except Exception as e:
         logger.error(e)
         return {
-            "error": repr(e)
+            "error": repr(e),
+            "trace": traceback.format_exc()
         }
