@@ -32,3 +32,7 @@ def transcribe(s3_file_key: str, file_path_is_local=False) -> dict:
             "error": repr(e),
             "trace": traceback.format_exc()
         }
+    
+@app.get("/")
+def health_check():
+    return
